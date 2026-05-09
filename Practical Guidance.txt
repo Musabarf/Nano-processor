@@ -1,0 +1,49 @@
+Nano-Processor Practical Operation Guide
+
+1. Clock and Reset (Inputs)
+
+
+System Clock: The processor runs continuously on the Basys3 board's internal 100 MHz oscillator. You do not need to manually toggle the clock.
+
+Reset Button: The processor reset is assigned to the center push-button (BTNC) on the Basys3 board.
+
+Operation: Pressing this button triggers the reset signal, which will reinitialize the processor (e.g., clearing registers and resetting the program counter to the start of the instruction memory).
+
+
+
+2. LED Output Mappings
+
+The board's LEDs display the values in a specific register and the operational status flags:
+
+LD0 to LD3: Displays the 4-bit data stored in Register 7 (R7_out[3:0]). This register typically acts as the main output or accumulator in a nano-processor design.
+LD3 (Pin V19) = R7_out[3] (MSB) 
+LD2 (Pin U19) = R7_out[2] 
+LD1 (Pin E19) = R7_out[1]
+LD0 (Pin U16) = R7_out[0] (LSB) 
+LD14 (Pin P1): Zero Flag. Lights up if the result of an operation evaluates to exactly zero.
+LD15 (Pin L1): Overflow Flag. Lights up if an arithmetic addition or subtraction exceeds the 4-bit representable range.
+
+
+3. Seven-Segment Display Mapping
+
+The 4-digit seven-segment display is configured for active-low operation.
+
+Cathodes (Segments): The segments $a$ through $g$ are mapped to seg[6:0].
+
+Anodes (Digit Selection): The four digits are controlled by an[3:0].
+
+an[0] (Pin U2) activates the rightmost digit.
+
+an[3] (Pin W4) activates the leftmost digit.
+
+
+
+4. Expected Circuit Behavior
+
+Since there are no manual switches configured for data input, the processor operates automatically based on a hardcoded program (likely an instruction ROM).
+
+1. When you power on the board, press the **Reset (BTNC)** button to initialize the processor state.
+2. The processor will immediately begin executing instructions at 100 MHz.
+3. Register 7's output will continuously update on LD0-LD3 depending on the operations programmed into your instruction ROM.
+4. The Zero (LD14) and Overflow (LD15) LEDs will toggle on or off in real-time if the arithmetic logic unit (ALU) reaches a zero state or exceeds the 4-bit boundaries during specific steps.
+5. The Seven-Segment Display will likely mirror the output value or register state, depending on how you programmed your display multiplexer to interpret the R7_out or overall result values.
